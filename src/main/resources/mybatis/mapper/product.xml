@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.ProductDao">
+	<insert id="insertProduct" parameterType="Product">
+		<selectKey keyProperty="pid" resultType="int" order="BEFORE">
+			select seq_product_pid.nextval from dual		
+		</selectKey>
+		insert into product (
+			pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pdate
+		)
+		values (
+			#{pid}, #{pcategory}, #{pname}, #{pprice}, #{pnum}, #{pdetail}, #{pattachoname}, #{pattachtype}, sysdate
+		)
+	</insert>
+	
+	<select id="selectByPid" parameterType="int" resultType="Product">
+		select
+			pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pdate
+		from product
+		where pid = #{value}
+	</select>
+	
+	<update id="updateProduct" parameterType="Product">
+		update product
+		set 
+			pcategory = #{pcategory},
+			pname = #{pname},
+			pprice = #{pprice},
+			pnum = #{pnum},
+			pdetail = #{pdetail}
+			<if test="pattachoname != null">
+				, pattachoname = #{pattachoname}
+				, pattachtype = #{pattachtype}
+			</if>
+		where pid = #{pid}
+	</update>
+	
+	<delete id="deleteProduct" parameterType="int">
+		delete from product
+		where pid = #{value}
+	</delete>
+</mapper>
