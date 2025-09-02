@@ -71,4 +71,9 @@ public class ProductService {
 		List<Product> list = productDao.selectByPage(pager);
 		return list;
 	}
+
+  public int countAll() {
+    return productDao.countAll();
+}
+
 }
