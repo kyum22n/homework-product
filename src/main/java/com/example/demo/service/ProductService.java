@@ -52,6 +52,13 @@ public class ProductService {
         dbProduct.setPnum(product.getPnum());
       }
 
+      // 파일 필드
+      if (product.getPattachdata() != null && product.getPattachdata().length > 0) {
+        dbProduct.setPattachdata(product.getPattachdata());
+        dbProduct.setPattachoname(product.getPattachoname());
+        dbProduct.setPattachtype(product.getPattachtype());
+    }
+
     }
 
     productDao.updateProduct(dbProduct);
