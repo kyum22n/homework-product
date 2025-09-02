@@ -27,14 +27,8 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping("/info")
-	public Product productInfo(@RequestParam("pid") int pid) {
-		Product product = productService.getProductInfo(pid);
-		return product;
-	}
-
 	@PostMapping("/create")
-	public String productCreate(Product product) throws Exception {
+	public Product productCreate(Product product) throws Exception {
 		MultipartFile mf = product.getPattach();
 		if (mf != null && !mf.isEmpty()) {
 			product.setPattachdata(mf.getBytes());
@@ -44,28 +38,20 @@ public class ProductController {
 
 		productService.createProduct(product);
 
-		// Product dbProduct = productService.getProductInfo(product.getPid());
+		Product dbProduct = productService.getProductInfo(product.getPid());
 
-		return "상품이 등록되었습니다.";
+		return dbProduct;
 	}
 
-	// @PutMapping("/update")
-	// public Map<String, Object> productUpdate(@RequestBody Product product) {
-	// Map<String, Object> map = new HashMap<>();
-	// Product dbProduct = productService.modifyProduct(product);
-
-	// if(dbProduct== null){
-	// map.put("result", "fail");
-	// }
-	// else{
-	// map.put("product", dbProduct);
-	// }
-
-	// return map;
-	// }
+	@GetMapping("/info")
+	public Product productInfo(@RequestParam("pid") int pid) {
+		Product product = productService.getProductInfo(pid);
+		return product;
+	}
 
 	@PutMapping("/update")
 	public Map<String, Object> productUpdate(Product product) throws Exception {
+
 		Map<String, Object> map = new HashMap<>();
 
 		MultipartFile mf = product.getPattach();
@@ -87,21 +73,6 @@ public class ProductController {
 		return map;
 	}
 
-	@DeleteMapping("/delete")
-	public String productDelete(@RequestParam("pid") int pid) {
-		productService.removeProduct(pid);
-
-		return "상품이 삭제되었습니다.";
-	}
-
-	@GetMapping("/page")
-	public List<Product> page(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
-		int totalRows = productService.countAll();
-		Pager pager = new Pager(10, 10, totalRows, pageNo);
-		List<Product> list = productService.getListBypage(pager);
-		return list;
-	}
-
 	@GetMapping("/temp")
 	public String temp() {
 		for (int i = 0; i < 10000; i++) {
@@ -116,4 +87,20 @@ public class ProductController {
 		}
 		return "1만개 데이터 생성됨";
 	}
+
+	@GetMapping("/page")
+	public List<Product> page(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+		int totalRows = productService.countAll();
+		Pager pager = new Pager(10, 10, totalRows, pageNo);
+		List<Product> list = productService.getListBypage(pager);
+		return list;
+	}
+
+	@DeleteMapping("/delete")
+	public String productDelete(@RequestParam("pid") int pid) {
+		productService.removeProduct(pid);
+
+		return "상품이 삭제되었습니다.";
+	}
+
 }

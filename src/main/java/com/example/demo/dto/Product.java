@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class Product {
+	// null 체크가 불가능 하므로 int를 Integer로 변경
 	private Integer pid;
 	private String pcategory;
 	private String pname;
