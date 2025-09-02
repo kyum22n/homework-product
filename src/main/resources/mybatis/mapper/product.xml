@@ -61,10 +61,10 @@
 			pprice = #{pprice},
 			pnum = #{pnum},
 			pdetail = #{pdetail}
-			<if test="pattachoname != null">
-				, pattachoname = #{pattachoname}
-				, pattachtype = #{pattachtype}
-				, pattachdata = #{pattachdata}
+			<if test="pattachdata != null">
+    		, pattachoname = #{pattachoname}
+    		, pattachtype = #{pattachtype}
+    		, pattachdata = #{pattachdata}
 			</if>
 		where pid = #{pid}
 	</update>

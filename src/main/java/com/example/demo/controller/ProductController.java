@@ -37,14 +37,14 @@ public class ProductController {
 	public String productCreate(Product product) throws Exception {
 		MultipartFile mf = product.getPattach();
 		if (mf != null && !mf.isEmpty()) {
+			product.setPattachdata(mf.getBytes());
 			product.setPattachoname(mf.getOriginalFilename());
 			product.setPattachtype(mf.getContentType());
-			product.setPattachdata(mf.getBytes());
 		}
 
 		productService.createProduct(product);
 
-		Product dbProduct = productService.getProductInfo(product.getPid());
+		// Product dbProduct = productService.getProductInfo(product.getPid());
 
 		return "상품이 등록되었습니다.";
 	}
@@ -65,14 +65,14 @@ public class ProductController {
 	// }
 
 	@PutMapping("/update")
-	public Map<String, Object> productUpdate(@ModelAttribute Product product) throws Exception {
+	public Map<String, Object> productUpdate(Product product) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 
 		MultipartFile mf = product.getPattach();
 		if (mf != null && !mf.isEmpty()) {
+			product.setPattachdata(mf.getBytes());
 			product.setPattachoname(mf.getOriginalFilename());
 			product.setPattachtype(mf.getContentType());
-			product.setPattachdata(mf.getBytes());
 		}
 
 		Product dbProduct = productService.modifyProduct(product);
