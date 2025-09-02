@@ -12,5 +12,6 @@
 	
 	<typeAliases>
 		<typeAlias type="com.example.demo.dto.Product" alias="Product" />
+		<typeAlias type="com.example.demo.dto.Pager" alias="Pager" />
 	</typeAliases>
 </configuration>

@@ -17,5 +17,6 @@ public class Product {
 	private MultipartFile pattach;
 	private String pattachoname;
 	private String pattachtype;
+	private byte[] pattachdata; 
 	private Date pdate;
 }

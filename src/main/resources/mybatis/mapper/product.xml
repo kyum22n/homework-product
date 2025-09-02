@@ -10,10 +10,10 @@
 			select seq_product_pid.nextval from dual		
 		</selectKey>
 		insert into product (
-			pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pdate
+			pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pattachdata, pdate
 		)
 		values (
-			#{pid}, #{pcategory}, #{pname}, #{pprice}, #{pnum}, #{pdetail}, #{pattachoname}, #{pattachtype}, sysdate
+			#{pid}, #{pcategory}, #{pname}, #{pprice}, #{pnum}, #{pdetail}, #{pattachoname}, #{pattachtype}, #{pattachdata}, sysdate
 		)
 	</insert>
 	
@@ -23,6 +23,35 @@
 		from product
 		where pid = #{value}
 	</select>
+
+
+	<select id="selectByPage"
+  		parameterType="Pager"
+  		resultType="Product">
+  		
+  		<![CDATA[ 
+  		select rnum, pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pdate
+		
+		from (
+    		select rownum as rnum, pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pdate
+    		from (
+        		select 
+				     pid, pcategory, pname, pprice, pnum, pdetail, pattachoname, pattachtype, pdate
+				 from product
+        		order by pid desc
+    			)
+    		where rownum <= #{endRowNo}
+			)
+		where rnum >= #{startRowNo}
+  		]]>
+  		
+  		</select>
+
+			<select id="countAll" resultType="int">
+    		select count(*) from product
+			</select>
+
+
 	
 	<update id="updateProduct" parameterType="Product">
 		update product
@@ -35,6 +64,7 @@
 			<if test="pattachoname != null">
 				, pattachoname = #{pattachoname}
 				, pattachtype = #{pattachtype}
+				, pattachdata = #{pattachdata}
 			</if>
 		where pid = #{pid}
 	</update>
